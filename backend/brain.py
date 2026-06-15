@@ -1,26 +1,34 @@
 import requests
 
-# Notice the new parameter added to the end of this line!
 def analyze_config(vendor, model, running_config, vulnerabilities_found=0):
     url = "http://127.0.0.1:11434/api/generate"
     
-    # Dynamic Prompt Injection based on the NIST NVD results
+    # 1. Threat Context
     if vulnerabilities_found > 0:
-        threat_context = f"CRITICAL WARNING: The NIST National Vulnerability Database reports {vulnerabilities_found} known firmware vulnerabilities for this specific switch. You MUST explicitly mention this severe risk in your opening sentence."
+        threat_context = f"CRITICAL WARNING: The NIST National Vulnerability Database reports {vulnerabilities_found} known firmware vulnerabilities. You MUST explicitly mention this severe risk."
     else:
-        threat_context = "GOOD NEWS: The NIST National Vulnerability Database reports 0 known vulnerabilities for this firmware version. Briefly acknowledge that the firmware baseline is secure before moving on to the configuration."
+        threat_context = "GOOD NEWS: The NIST National Vulnerability Database reports 0 known vulnerabilities. Briefly acknowledge the firmware is secure."
 
+    # 2. Dynamic Config Logic (Stops Hallucinations)
+    if not running_config or running_config.strip() == "NOT_PROVIDED":
+        config_instructions = "The user did NOT provide a running-configuration. DO NOT hallucinate or invent one. Simply write a 2-sentence executive summary advising the user on the firmware's safety based on the vulnerability count."
+        running_config = "[NO CONFIGURATION PROVIDED]"
+    else:
+        config_instructions = "Review the provided running-configuration below. Identify security bad practices and provide 2-3 specific, defensive CLI commands to harden the switch."
+
+    # 3. The Defensive Mandate (Bypasses the Safety Filter)
     system_prompt = f"""
-    You are an elite, CCIE-certified Network Security Engineer. 
-    Review the following running-configuration for a {vendor} {model} switch.
+    Generate an objective, third-person executive security brief for a {vendor} {model} switch. 
+    NEVER use first-person pronouns (I, me, my, we). Do not greet the user.
     
     {threat_context}
     
-    Identify any security vulnerabilities, bad practices, or missing standard configurations in the text.
-    Provide 2-3 specific, actionable CLI commands to fix the issues. Keep your response professional and concise.
+    {config_instructions}
     
     Configuration:
     {running_config}
+    
+    Provide a comprehensive but standard-length technical analysis (3 to 5 sentences). Include the exact CLI commands required for mitigation if applicable.
     """
     
     payload = {
