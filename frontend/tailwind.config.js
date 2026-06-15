@@ -6,10 +6,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        slate: {
-          850: '#151e2e',
-          900: '#0f172a',
-        }
+        background: '#0f172a', // Deep slate/blue [cite: 65]
+        surface: '#1e293b',    // Lighter slate for cards/modals [cite: 65]
+        primary: '#3b82f6',    // Sentry Blue
       }
     },
   },
