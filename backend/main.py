@@ -35,6 +35,9 @@ class SwitchData(BaseModel):
     running_config: str
     threat_count: int = 0 
 
+class DiscoveryRequest(BaseModel):
+    ip_address: str
+
 @app.get("/")
 def read_root():
     return {"status": "Project Sentry Engine is Online", "version": "1.0"}
@@ -83,3 +86,15 @@ def discover_switch(request: DiscoveryRequest):
         password=request.password
     )
     return result
+
+
+
+@app.post("/api/v1/discover")
+def trigger_discovery(request: DiscoveryRequest):
+    # This triggers the Netmiko script we just wrote
+    result = discovery.run_discovery(request.ip_address)
+    
+    if result:
+        return {"status": "success", "device": result}
+    
+    return {"status": "error", "message": f"Failed to connect to {request.ip_address}."}
