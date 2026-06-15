@@ -46,3 +46,37 @@ def analyze_config(vendor, model, running_config, vulnerabilities_found=0):
         return "Error: Could not connect to Ollama. Is the Ollama app running?"
     except requests.exceptions.Timeout:
         return "Error: The AI took too long to respond. The model might be loading."
+
+
+
+def ask_assistant(user_prompt: str):
+    """
+    Dedicated conversational AI endpoint for plain-English to CLI translation.
+    """
+    print(f"[*] Sending prompt to AI Assistant...")
+    url = "http://127.0.0.1:11434/api/generate"
+    
+    # The STRICT System Prompt to prevent non-networking questions
+    system_prompt = (
+        "You are a strict, elite CCIE Network Security Engineer. "
+        "You ONLY answer questions related to network configuration, switch infrastructure, and cybersecurity. "
+        "If a user asks a non-networking question, you MUST reply exactly with: "
+        "'I am a network security assistant. I cannot assist with that.' "
+        "Provide your answers in clean, readable formats. If providing CLI commands, format them clearly."
+    )
+
+    payload = {
+        "model": "llama3.1",
+        "system": system_prompt,
+        "prompt": user_prompt,
+        "stream": False
+    }
+
+    try:
+        response = requests.post(url, json=payload, timeout=120)
+        response.raise_for_status()
+        data = response.json()
+        return data.get("response", "Error: No response generated.")
+    except Exception as e:
+        print(f"[-] AI Assistant communication failed: {e}")
+        return f"Error connecting to local AI: {e}"

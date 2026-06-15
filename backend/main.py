@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
+import csv
+import io
+from fastapi import Response
+
 import models
 import discovery  # Our new module!
 from database import engine, SessionLocal
@@ -37,6 +41,9 @@ class SwitchData(BaseModel):
 
 class DiscoveryRequest(BaseModel):
     ip_address: str
+
+class AssistantRequest(BaseModel):
+    prompt: str
 
 @app.get("/")
 def read_root():
@@ -98,3 +105,43 @@ def trigger_discovery(request: DiscoveryRequest):
         return {"status": "success", "device": result}
     
     return {"status": "error", "message": f"Failed to connect to {request.ip_address}."}
+
+# --- ENDPOINT 4: THE CSV EXPORT ---
+@app.get("/api/v1/export")
+def export_csv(db: Session = Depends(get_db)):
+    """ Pulls all audited switches from the database and generates a downloadable CSV """
+    switches = db.query(models.Switch).all()
+    
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # Write the Header Row
+    writer.writerow(["ID", "Hostname", "IP Address", "Vendor", "Model", "Firmware", "Threat Count", "Last Audited"])
+    
+    # Write the Data Rows
+    for switch in switches:
+        writer.writerow([
+            switch.id, 
+            switch.hostname, 
+            switch.ip_address, 
+            switch.vendor, 
+            switch.model, 
+            switch.firmware_version, 
+            switch.threat_count, 
+            switch.last_audited.strftime("%Y-%m-%d %H:%M:%S")
+        ])
+        
+    # Return as a downloadable file
+    return Response(
+        content=output.getvalue(), 
+        media_type="text/csv", 
+        headers={"Content-Disposition": "attachment; filename=sentry_audit_report.csv"}
+    )
+
+# --- ENDPOINT 5: THE AI CONFIGURATION ASSISTANT ---
+@app.post("/api/v1/assistant")
+def chat_with_ai(request: AssistantRequest):
+    """ Converts plain-English to vendor CLI syntax """
+    response = brain.ask_assistant(request.prompt)
+    return {"ai_response": response}
+
