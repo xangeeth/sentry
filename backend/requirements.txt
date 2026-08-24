@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+requests
+pydantic
+netmiko
+python-dotenv
+paramiko
+httpx

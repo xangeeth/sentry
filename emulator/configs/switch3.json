@@ -1,0 +1,11 @@
+{
+  "hostname": "Edge-EX4300-Branch",
+  "ip_address": "127.0.0.3",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Juniper",
+  "model": "EX4300",
+  "firmware_version": "21.4R3.15",
+  "security_status": "Good",
+  "running_config": "system {\n host-name Edge-EX4300-Branch;\n services {\n  ssh {\n   protocol-version v2;\n  }\n }\n}"
+}

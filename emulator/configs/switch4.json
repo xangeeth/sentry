@@ -1,0 +1,11 @@
+{
+  "hostname": "Border-PA3220-FW",
+  "ip_address": "127.0.0.4",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Palo Alto",
+  "model": "PAN-OS PA-3220",
+  "firmware_version": "10.2.4",
+  "security_status": "Good",
+  "running_config": "system {\n hostname Border-PA3220-FW;\n service {\n  disable-http yes;\n  disable-telnet yes;\n }\n}"
+}

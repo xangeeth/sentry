@@ -1,0 +1,11 @@
+{
+  "hostname": "DMZ-Misconfig-SW5",
+  "ip_address": "127.0.0.10",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Cisco",
+  "model": "Catalyst 4500",
+  "firmware_version": "15.1(2)SG",
+  "security_status": "Bad",
+  "running_config": "!\nversion 15.1\nno service password-encryption\nhostname DMZ-Misconfig-SW5\nenable password cisco\nip http server\nsnmp-server community public RW\nline vty 0 4\n password cisco\n login\n transport input telnet ssh\nend"
+}

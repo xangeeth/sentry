@@ -1,0 +1,11 @@
+{
+  "hostname": "Agg-EOS7280-Spine",
+  "ip_address": "127.0.0.5",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Arista",
+  "model": "EOS 7280",
+  "firmware_version": "4.28.2F",
+  "security_status": "Good",
+  "running_config": "hostname Agg-EOS7280-Spine\nmanagement ssh\n protocol version 2\nend"
+}

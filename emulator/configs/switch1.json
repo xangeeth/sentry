@@ -1,0 +1,11 @@
+{
+  "hostname": "Core-Cat9300-HQ",
+  "ip_address": "127.0.0.1",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Cisco",
+  "model": "Catalyst 9300",
+  "firmware_version": "17.06.03",
+  "security_status": "Good",
+  "running_config": "!\nversion 17.6\nservice password-encryption\nhostname Core-Cat9300-HQ\nenable secret 9 .Jz1Z8V4a1X9kL0mN\naaa new-model\nip domain-name sentry.local\nip ssh version 2\nno ip http server\nno vstack\nline vty 0 15\n transport input ssh\nend"
+}

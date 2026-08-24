@@ -1,0 +1,11 @@
+{
+  "hostname": "Dist-Aruba2930-DC",
+  "ip_address": "127.0.0.2",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "HP",
+  "model": "Aruba 2930F",
+  "firmware_version": "16.10.0012",
+  "security_status": "Good",
+  "running_config": "hostname Dist-Aruba2930-DC\nno web-management\nno telnet-server\nssh server-version 2\naaa authentication login privilege-level 15\nend"
+}

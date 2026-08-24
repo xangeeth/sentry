@@ -1,0 +1,11 @@
+{
+  "hostname": "Branch-Old-SW3",
+  "ip_address": "127.0.0.8",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Cisco",
+  "model": "Catalyst 3560",
+  "firmware_version": "12.2(44)SE",
+  "security_status": "Bad",
+  "running_config": "!\nversion 12.2\nno service password-encryption\nhostname Branch-Old-SW3\nenable password cisco\nip http server\nip ssh version 1\nsnmp-server community private RW\nline vty 0 4\n password cisco\n login\n transport input telnet\nend"
+}

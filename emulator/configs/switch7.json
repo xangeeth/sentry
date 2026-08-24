@@ -1,0 +1,11 @@
+{
+  "hostname": "Access-Legacy-swtch 3",
+  "ip_address": "127.0.0.7",
+  "username": "admin",
+  "password": "admin",
+  "vendor": "Cisco",
+  "model": "Catalyst 3750",
+  "firmware_version": "12.2(55)SE",
+  "security_status": "Bad",
+  "running_config": "!\nversion 12.2\nno service password-encryption\nhostname Access-Legacy-02\nenable password cisco\nip http server\nvstack\nsnmp-server community public RW\nline vty 0 4\n password cisco\n login\n transport input telnet ssh\nend"
+}

@@ -1,0 +1,11 @@
+{
+  "hostname": "Access-Legacy-01",
+  "ip_address": "127.0.0.6",
+  "username": "admin",
+  "password": "cisco",
+  "vendor": "Cisco",
+  "model": "Catalyst 2960",
+  "firmware_version": "15.0.2",
+  "security_status": "Bad",
+  "running_config": "!\nversion 15.0\nno service password-encryption\nhostname Access-Legacy-01\nenable password cisco\nip http server\nline vty 0 4\n password cisco\n login\n transport input telnet\nend"
+}
